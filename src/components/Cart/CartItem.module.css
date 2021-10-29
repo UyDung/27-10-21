@@ -1,0 +1,24 @@
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+}
+
+.action,
+.total {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.totalprice {
+    margin-left: 5rem;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.action > * {
+    background-color: #880494;
+    color: #fff;
+    border-radius: 5px;
+}

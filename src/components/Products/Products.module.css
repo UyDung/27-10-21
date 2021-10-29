@@ -1,0 +1,10 @@
+.products {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    position: relative;
+    top: 0vh;
+   
+}
