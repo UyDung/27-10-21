@@ -2,31 +2,32 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 
-import { sendingData, fetchingData, transDataToLocal, getDataFromLocal } from "./store/cart-Actions";
+import { transDataToLocal, getDataFromLocal } from "./store/cart-Actions";
 import Cart from "./components/Cart/Cart";
 import Header from "./components/Header/Header";
 import Login from "./components/Login/Login";
 import Main from "./components/Main/Main";
+import { sendLogginState, replaceLoginState } from "./store/auth-Slice";
+import Register from "./components/Register/Register";
 
 function App() {
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
+    const loggedIn = useSelector((state) => state.auth);
 
-    {
-        // useEffect(() => {
-        //     dispatch(fetchingData());
-        // }, [dispatch]);
-        // useEffect(() => {
-        //     if(!cart.isInitial) {
-        //         sendingData(cart);
-        //     }
-        // }, [cart]);
-    }
+    useEffect(() => {
+        dispatch(replaceLoginState());
+    }, [dispatch]);
 
-    
+    useEffect(() => {
+        if (loggedIn.changed) {
+            sendLogginState(loggedIn.login);
+        }
+    });
+
     useEffect(() => {
         dispatch(getDataFromLocal());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         if (!cart.isInitial) {
@@ -49,7 +50,9 @@ function App() {
                 <Route path="/login">
                     <Login />
                 </Route>
-                <Route path="/register">Register</Route>
+                <Route path="/register">
+                    <Register />
+                </Route>
                 <Route path="/cart">
                     <Cart />
                 </Route>

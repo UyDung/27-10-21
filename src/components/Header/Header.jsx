@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth-Slice";
 import { Link, NavLink } from "react-router-dom";
@@ -48,7 +46,7 @@ const Header = () => {
                 {!isLoggedIn && (
                     <Link to="/login">
                         <button className="btn" id="login">
-                            Login
+                        Sign in
                         </button>
                     </Link>
                 )}
