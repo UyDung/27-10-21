@@ -25,9 +25,17 @@
 }
 
 
+
 .controls > input {
     width: 100%;
-    padding: 0.35rem 1rem;    
+    padding: 0.35rem 1rem;   
+    border-radius: 2px; 
+    border: 1px solid #bbb;
+}
+
+.controls.invalid > input {
+    border: 2px solid  #fa9494;
+    background-color: #fcf1f1;
 }
 
 .controls > input:focus {
@@ -43,4 +51,9 @@
     font-size: 0.87rem;
     font-style: italic;
     margin-bottom: 0.3rem;
+}
+
+button:disabled:hover {
+    color: transparent;
+    cursor: no-drop;
 }

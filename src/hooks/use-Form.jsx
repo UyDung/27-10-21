@@ -1,26 +1,39 @@
-import {useState} from 'react'
+import { useState } from "react";
 
-const useForm = () => {
-    const [inputValue, setInputValue] = useState('');
-    const [inputError, setInputError] = useState('');
-    
+const useForm = (validateValue) => {
+    const [enteredValue, setEnteredValue] = useState("");
+    const [isTouched, setIsTouched] = useState(false);
+
+    const valueIsValid = validateValue(enteredValue);
+    const hasError = !valueIsValid && isTouched;
+
     const inputChangeHandler = (event) => {
-        setInputValue(event.target.value);
-        setInputError('');
+        setEnteredValue(event.target.value);         
     };
 
     const inputBlurHandler = () => {
-        if (inputValue.trim() === "") {
-            setInputError("Username can not be empty");
-        }
+        setIsTouched(true);
     };
 
-    return {
-        inputValue,
-        inputError,
-        onChange: inputChangeHandler,
-        onBlur: inputBlurHandler
-    }
-}
+    const reset = () => {
+        setEnteredValue("");
+        setIsTouched(false);
+    };
 
-export default useForm
+    const trySubmit = () => {
+        setIsTouched(true);
+    }
+    
+
+    return {
+        value: enteredValue,        
+        valueIsValid,
+        hasError,
+        inputChangeHandler: inputChangeHandler,
+        inputBlurHandler: inputBlurHandler,
+        reset,
+        trySubmit,
+    };
+};
+
+export default useForm;
