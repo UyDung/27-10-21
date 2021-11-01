@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
-
+ 
 import { transDataToLocal, getDataFromLocal } from "./store/cart-Actions";
 import Cart from "./components/Cart/Cart";
 import Header from "./components/Header/Header";
@@ -11,13 +11,14 @@ import { sendLogginState, replaceLoginState } from "./store/auth-Slice";
 import Register from "./components/Register/Register";
 
 function App() {
+     
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
     const loggedIn = useSelector((state) => state.auth);
 
-    useEffect(() => {
-        dispatch(replaceLoginState());
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(replaceLoginState());
+    // }, [dispatch]);
 
     useEffect(() => {
         if (loggedIn.changed) {
