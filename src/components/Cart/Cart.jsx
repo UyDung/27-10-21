@@ -21,30 +21,30 @@ const Cart = () => {
     ));
 
     return (
-        <div className={classes.cart}>
-            <h3>Your's Cart</h3>
-            <ul className={classes["cart-items"]}>
-                <div className={classes.title}>
-                    <p>Name</p>
-                    <p>Price</p>
-                    <p>Quantity</p>
-                    <p>Add</p>
-                    <p>Delete</p>
+        <div className="container mt-28 w-9/12 lg:w-3/6  mx-auto py-4 px-8 grid grid-flow-row gap-4 bg-white rounded">
+            <h3 className="text-center font-bold text-4xl mb-4 text-yellow-300">Your's Cart</h3>
+            <ul className="flex flex-col gap-2">
+                <div className="grid grid-flow-col grid-cols-5 items-center font-bold justify-between">
+                    <p className="text-yellow-300">Name</p>
+                    <p className="text-center text-yellow-300">Price</p>
+                    <p className="text-center text-yellow-300">Quantity</p>
+                    <p className="text-center text-yellow-300">Add</p>
+                    <p className="text-center text-yellow-300">Delete</p>
                 </div>
-                {listItems.length > 0 ? cartItems : <p>Nothing</p>}
+                {listItems.length > 0 ? cartItems : <p className="text-center text-indigo-600">Empty</p>}
             </ul>
-            <div className={classes.total}>
+            <div className="flex font-bold justify-between">
                 <h3>Total</h3>
-                <span className={classes["totalprice"]}> {totalPrice}</span>
+                <span className=""> $ {totalPrice}</span>
             </div>
             {isLoggedIn && <OrderForm />}
-            <div className={classes.actions}>
+            <div className="ml-auto">
                 {!isLoggedIn && (
-                    <button className="btn" onClick={goLoginHandler} disabled={!listItems.length > 0}>
+                    <button className=" text-sm bg-purple-500 text-white rounded  py-1 px-4  mr-4 hover:opacity-70" onClick={goLoginHandler} disabled={!listItems.length > 0}>
                         Order
                     </button>
                 )}
-                <button className="btn" onClick={closeCartHandler}>
+                <button className="text-sm bg-purple-500 text-white rounded py-1 px-4 hover:opacity-70" onClick={closeCartHandler}>
                     Close
                 </button>
             </div>
