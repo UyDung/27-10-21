@@ -8,34 +8,35 @@ const OrderForm = () => {
 
 
     return (
-        <form className={classes.order}>
+        <form className="flex flex-col gap-2 ">
             <h3>Delivery To</h3>
-            <div className={classes.controls}>
+            <div className="group  flex">
                 <label htmlFor="username">Received Person</label>
-                <input type='text' name="username"  placeholder='Enter your name'/>
+                <input className="p-2 outline-none border-2 w-3/4 ml-auto" type='text' name="username"  placeholder='Enter your name'/>
             </div>
-            <div className={classes.controls}>
+            <div className="group  flex">
                 <label htmlFor="address">Delivery Address</label>
-                <textarea name="address" id="address"  />
+                <textarea className="p-2 outline-none border-2 w-3/4 ml-auto" name="address" id="address"  />
             </div>
 
-            <div className={classes.controls}>
+            <div className="group flex ">
                 <label htmlFor="address">Time of Delivery</label>
-               <input type="date" min={mindate} />
+               <input className="p-2 outline-none border-2 w-3/4 ml-auto" type="date" min={mindate} />
             </div>
-            <div className={classes.controls}>
+            <div className="group  flex">
                 <label htmlFor="address">Remarks</label>
-                <textarea name="remark" id="address" />
+                <textarea className="p-2 outline-none border-2 w-3/4 ml-auto" name="remark" id="address" />
             </div>
-            <div className={classes.controls}>
+            <div className="group  flex">
                 <label htmlFor="phone">Phone Number</label>
-                <input type='number' name="phone" id="phone" />
+                <input className="p-2 outline-none border-2 w-3/4 ml-auto" type='text' name="phone" id="phone" />
             </div>
-            <div className={classes.actions}>
-                <button >Order</button>
-            </div>
+            
+                <button className=" rounded ml-auto py-1 px-6 bg-purple-500 text-white active:bg-purple-700 ">Order</button>
+            
         </form>
     );
+    
 };
 
 export default OrderForm;

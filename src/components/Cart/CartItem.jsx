@@ -15,13 +15,13 @@ const CartItem = ({ quantity, title, price, id }) => {
     };
 
     return (
-        <li className="grid grid-flow-col grid-cols-5 items-center border-b-2 border-gray-1 ">
+        <div className="grid grid-flow-col grid-cols-5 items-center border-b-2 border-gray-1 my-2">
             <div className="font-bold text-sm">{title}</div>
-            <div className=" text-center  text-sm">{price}</div>
-            <div className=" text-center  text-sm">{quantity}</div>
-            <div className=" text-center  text-sm rounded w-8 m-auto shadow-lg cursor-pointer hover:bg-gray-100" onClick={addOneToCart}>+</div>
-            <div className=" text-center  text-sm rounded w-8 m-auto shadow-lg cursor-pointer  hover:bg-gray-100" onClick={removeOneFromCart}>-</div>
-        </li>
+            <div className=" text-center  text-base">{price}</div>
+            <div className=" text-center  text-base">{quantity}</div>
+            <div className=" text-center  text-base rounded w-8 m-auto shadow cursor-pointer text-white font-bold bg-green-500   active:bg-green-700" onClick={addOneToCart}>+</div>
+            <div className=" text-center  text-base rounded w-8 m-auto shadow-lg cursor-pointer text-white font-bold bg-green-500  active:bg-green-700" onClick={removeOneFromCart}>-</div>
+        </div>
     );
 };
 

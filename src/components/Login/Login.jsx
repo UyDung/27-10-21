@@ -47,11 +47,11 @@ const Login = () => {
         },
     });
 
-    // useEffect(() => {
-    //     if (isLoggedIn ) {
-    //         history.push("/");
-    //     }
-    // },[isLoggedIn]);
+    useEffect(() => {
+        if (isLoggedIn ) {
+            history.push("/");
+        }
+    },[isLoggedIn]);
 
     useEffect(async () => {
         try {
