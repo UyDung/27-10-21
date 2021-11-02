@@ -1,10 +1,10 @@
 import Products from '../Products/Products';
-import css from './Main.module.css';
+ 
 
 const Main = () => {
     return (
-        <main className={css.main}>
-            <Products />
+        <main className="container mt-40">
+            
         </main>
     )
 }

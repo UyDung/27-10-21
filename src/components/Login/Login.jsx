@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../store/auth-Slice";
-
 import classes from "./Login.module.css";
 import { fetchingData } from "../../store/cart-Actions";
 // 1 Nhap username password
@@ -16,7 +15,7 @@ const firebaseLink = "https://project-2532894124166455430-default-rtdb.firebasei
 const Login = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const isLoggedIn = useSelector((state) => state.auth);    
+    const isLoggedIn = useSelector((state) => state.auth);
     const [errorLogin, setErrorLogin] = useState("");
     const [members, setMembers] = useState([]);
 
@@ -48,11 +47,11 @@ const Login = () => {
         },
     });
 
-    useEffect(() => {
-        if (isLoggedIn ) {
-            history.push("/");
-        }
-    },[isLoggedIn]);
+    // useEffect(() => {
+    //     if (isLoggedIn ) {
+    //         history.push("/");
+    //     }
+    // },[isLoggedIn]);
 
     useEffect(async () => {
         try {
@@ -62,8 +61,6 @@ const Login = () => {
             console.log(error.message);
         }
     }, []);
-
-   
 
     const validateLoginHandler = (username, password) => {
         //1 check data empty or not
@@ -92,11 +89,15 @@ const Login = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit(formSubmitHandler)} className={classes.login}>
-            <h3>Login Form</h3>
+        <form
+            onSubmit={handleSubmit(formSubmitHandler)}
+            className=" mt-40 mx-auto w-80  bg-white rounded shadow py-4  px-6 flex flex-col gap-6 items-center"
+        >
+            <h3 className="text-2xl font-bold">Login Form</h3>
 
             <div className={classes.controls}>
                 <input
+                    className={`w-full border-2 px-1 py-2  outline-none `}
                     type="text"
                     placeholder="Email"
                     autoComplete="off"
@@ -104,30 +105,29 @@ const Login = () => {
                     onChange={errorResetHandler}
                 />
                 {errors.username?.type === "required" && (
-                    <span className={classes.error}>This field do not empty</span>
+                    <span className="text-red-500 italic text-sm">This field do not empty</span>
                 )}
             </div>
             <div className={classes.controls}>
                 <input
+                    className={`w-full border-2 px-1 py-2 outline-none`}
                     type="password"
                     autoComplete="off"
                     placeholder="Password"
                     {...register("password", { required: true })}
                     onChange={errorResetHandler}
                 />
-                {errors.password?.type === "required" && (
-                    <span className={classes.error}>This field do not empty</span>
+                {errors.username?.type === "required" && (
+                    <span className="text-red-500 italic text-sm">This field do not empty</span>
                 )}
             </div>
 
-            <span className={classes.error}>{errorLogin}</span>
+            {errorLogin !== "" && <span className="text-red-500 italic text-sm">{errorLogin}</span>}
 
-            <div className={classes.actions}>
-                <button className="btn">Sign in</button>
+            <div className="">
+                <button className="bg-blue-600 text-white rounded px-6 pt-1 pb-2 hover:bg-red-500">Sign in</button>
             </div>
-            <Link to="/forgotPassword" style={{ color: "blue" }}>
-                Need help?
-            </Link>
+            <Link to="/forgotPassword" className="text-blue-400 hover:text-red-700">Need help?</Link>
         </form>
     );
 };

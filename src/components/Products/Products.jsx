@@ -165,7 +165,7 @@ const Products = () => {
         />
     ));
 
-    return <ul className={classes.products}>{listProducts}</ul>;
+    return <ul className="px-10 md:px-15 lg:px-20 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 mb-8">{listProducts}</ul>;
 };
 
 export default Products;

@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth-Slice";
 import { Link, NavLink } from "react-router-dom";
-
-import css from "./Header.module.css";
+ 
 import HeaderCartButton from "./HeaderCartButton";
 
 const Header = () => {   
@@ -14,52 +13,52 @@ const Header = () => {
     };
 
     return (
-        <header className={css.header}>
-            <div className={css.logo}>
+        <header className="h-16 flex items-center justify-between border-2 w-screen px-4 md:px-10  shadow-sm  fixed top-0 z-50 bg-white  ">
+            <div className="md:text-2xl md:font-bold">
                 <NavLink to="/">
                     <h1>Cake</h1>
                 </NavLink>
             </div>
 
-            <nav className={css["main-menu"]}>
-                <ul>
+            <nav className="hidden md:block">
+                <ul className="flex items-center justify-between gap-10">
                     <li>
-                        <NavLink to="/">Home</NavLink>
+                        <NavLink to="/" className="hover:text-red-400 ">Home</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/products">Products</NavLink>
+                        <NavLink to="/products" className="hover:text-red-400 ">Products</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/news">News</NavLink>
+                        <NavLink to="/news" className="hover:text-red-400 ">News</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/about">About</NavLink>
+                        <NavLink to="/about" className="hover:text-red-400 ">About</NavLink>
                     </li>
                 </ul>
             </nav>
 
-            <div className={css["cart-btn"]}>
+            <div className="">
                 <HeaderCartButton />
             </div>
 
-            <div className={css.login}>
+            <div className="flex items-center content-between">
                 {!isLoggedIn && (
-                    <Link to="/login">
-                        <button className="btn" id="login">
+                    <Link to="/login" className="hover:text-red-500 mr-1 text-sm">
+                        <button className="" id="login">
                         Sign in
                         </button>
                     </Link>
                 )}
 
                 {isLoggedIn && (
-                    <button onClick={logoutHandler} className="btn" id="logout">
+                    <Link onClick={logoutHandler} className="hover:text-red-500 text-sm" id="logout">
                         Logout
-                    </button>
+                    </Link>
                 )}
 
                 {!isLoggedIn && (
-                    <Link to="/register">
-                        <button className="btn" id="register">
+                    <Link className="hover:text-red-500  text-sm" to="/register">
+                        <button className="" id="register">
                             Register
                         </button>
                     </Link>

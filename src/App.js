@@ -6,9 +6,9 @@ import { transDataToLocal, getDataFromLocal } from "./store/cart-Actions";
 import Cart from "./components/Cart/Cart";
 import Header from "./components/Header/Header";
 import Login from "./components/Login/Login";
-import Main from "./components/Main/Main";
 import { sendLogginState, replaceLoginState } from "./store/auth-Slice";
 import Register from "./components/Register/Register";
+import Product from "./pages/Product";
 
 function App() {
      
@@ -38,13 +38,13 @@ function App() {
 
     return (
         <div className="App">
-            <Header />
+            <Header/>
             <Switch>
                 <Route path="/" exact>
                     <Redirect to="/products" />
                 </Route>
                 <Route path="/products">
-                    <Main />
+                    <Product />
                 </Route>
                 <Route path="/news">News</Route>
                 <Route path="/about">About</Route>

@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -16,10 +16,6 @@ const Register = () => {
         formState: { errors },
     } = useForm({ mode: "all" });
 
-    // if (Object.keys(member).length !== 0) {
-    //     useRegister(member);
-    // }
-
     const signupHandler = ({ username, email, phone, password }, event) => {
         const member = { username, email, phone, password };
         setMember(member);
@@ -27,32 +23,36 @@ const Register = () => {
         event.target.reset();
         history.goBack();
     };
-
+ 
     return (
-        <div className={classes.register}>
-            <div className={classes.title}>
-                <h3>Register</h3>
+        <div className="w-80  my-28 mx-auto p-4 box-shadow rounded bg-white">
+            <div className="">
+                <h3 className="mb-4 text-center font-bold text-2xl">Register</h3>
             </div>
-            <form onSubmit={handleSubmit(signupHandler)} className={classes.content}>
-                <div className={classes.controls}>
-                    <label htmlFor="username">Username (*)</label>
-                    <input
+            <form onSubmit={handleSubmit(signupHandler)} className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="username" className="text-md">
+                        Username (*)
+                    </label>
+                    <input className="outline-none border-2 rounded w-full py-1 px-2"                        
                         type="text"
                         autoComplete="off"
                         placeholder="Uy Dung"
                         {...register("username", { required: true, minLength: 6 })}
                     />
                     {errors.username?.type === "required" && (
-                        <span className={classes.error}>This field cannot be left blank</span>
+                        <p className="text-red-500 italic text-sm">This field cannot be left blank</p>
                     )}
                     {errors.username?.type === "minLength" && (
-                        <span className={classes.error}>Should have least 6 characters</span>
+                        <p className="text-red-500 italic text-sm">Should have least 6 characters</p>
                     )}
                 </div>
 
-                <div className={classes.controls}>
-                    <label htmlFor="phone">Phone (*)</label>
-                    <input
+                <div className="">
+                    <label htmlFor="phone" className="text-md">
+                        Phone (*)
+                    </label>
+                    <input className="outline-none border-2 rounded w-full py-1 px-2"
                         {...register("phone", {
                             required: true,
                             pattern: {
@@ -64,16 +64,18 @@ const Register = () => {
                         placeholder="0398 645 078"
                     />
                     {errors.phone?.type === "required" && (
-                        <span className={classes.error}>This field cannot be left blank</span>
+                        <p className="text-red-500 italic text-sm">This field cannot be left blank</p>
                     )}
                     {errors.phone?.type === "pattern" && (
-                        <span className={classes.error}>Invalid phone number</span>
+                        <p className="text-red-500 italic text-sm">Invalid phone number</p>
                     )}
                 </div>
 
-                <div className={classes.controls}>
-                    <label htmlFor="">Email (*)</label>
-                    <input
+                <div className="">
+                    <label htmlFor="" className="text-md">
+                        Email (*)
+                    </label>
+                    <input className="outline-none border-2 rounded w-full py-1 px-2"
                         {...register("email", {
                             required: true,
                             pattern: {
@@ -85,16 +87,18 @@ const Register = () => {
                         placeholder="dungnguyendinh911@gmail.com"
                     />
                     {errors.email?.type === "required" && (
-                        <span className={classes.error}>This field cannot be left blank</span>
+                        <p className="text-red-500 italic text-sm">This field cannot be left blank</p>
                     )}
                     {errors.email?.type === "pattern" && (
-                        <span className={classes.error}>Invalid email address </span>
+                        <p className="text-red-500 italic text-sm">Invalid email address </p>
                     )}
                 </div>
 
-                <div className={classes.controls}>
-                    <label htmlFor="">Password (*)</label>
-                    <input
+                <div className="">
+                    <label htmlFor="" className="text-md">
+                        Password (*)
+                    </label>
+                    <input className="outline-none border-2 rounded w-full py-1 px-2"
                         {...register("password", {
                             required: true,
                             pattern: { value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ },
@@ -103,18 +107,20 @@ const Register = () => {
                         autoComplete="off"
                     />
                     {errors.password?.type === "required" && (
-                        <span className={classes.error}>This field cannot be left blank</span>
+                        <p className="text-red-500 italic text-sm">This field cannot be left blank</p>
                     )}
                     {errors.password?.type === "pattern" && (
-                        <span className={classes.error}>
+                        <p className="text-red-500 italic text-sm">
                             Minimum eight characters, at least one letter and one number
-                        </span>
+                        </p>
                     )}
                 </div>
 
-                <div className={classes.controls}>
-                    <label htmlFor="">Confirm Password (*)</label>
-                    <input
+                <div className="">
+                    <label htmlFor="" className="text-md">
+                        Confirm Password (*)
+                    </label>
+                    <input className="outline-none border-2 rounded w-full py-1 px-2"
                         {...register("passwordConfirm", {
                             required: true,
                             pattern: { value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ },
@@ -129,26 +135,28 @@ const Register = () => {
                         autoComplete="off"
                     />
                     {errors.passwordConfirm?.type === "required" && (
-                        <span className={classes.error}>This field cannot be left blank</span>
+                        <p className="text-red-500 italic text-sm">This field cannot be left blank</p>
                     )}
                     {errors.passwordConfirm?.type === "pattern" && (
-                        <span className={classes.error}>
+                        <p className="text-red-500 italic text-sm">
                             Minimum eight characters, at least one letter and one number
-                        </span>
+                        </p>
                     )}
                     {errors.passwordConfirm?.type === "matchesPreviousPassword" && (
-                        <span className={classes.error}>Should matches with password </span>
+                        <p className="text-red-500 italic text-sm">Should matches with password </p>
                     )}
                 </div>
 
-                <div className={classes.actions}>
-                    <button type="submit" className="btn">
+                <div className="ml-auto">
+                    <button type="submit" className="rounded border-2 mr-4 px-2 py-1 bg-blue-500 text-gray-300 hover:bg-indigo-600">
                         Sign Up
                     </button>
-                    <button className="btn">Close</button>
+                    <Link  to='/' className="rounded border-2 px-2 py-1 bg-blue-500 text-gray-300 hover:bg-indigo-600">Close</Link>
                 </div>
             </form>
         </div>
+
+        
     );
 };
 
