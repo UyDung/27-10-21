@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
 import { useSelector, useDispatch } from "react-redux";
+
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { authActions } from "../../store/auth-Slice";
 import classes from "./Login.module.css";
 import { fetchingData } from "../../store/cart-Actions";
@@ -13,27 +14,12 @@ import { fetchingData } from "../../store/cart-Actions";
 const firebaseLink = "https://project-2532894124166455430-default-rtdb.firebaseio.com/members.json";
 
 const Login = () => {
+    const auth = getAuth();
     const dispatch = useDispatch();
-    const history = useHistory();
-    const isLoggedIn = useSelector((state) => state.auth);
+    const navigate = useNavigate();
+    const isLoggedIn = useSelector((state) => state.auth.login);
     const [errorLogin, setErrorLogin] = useState("");
     const [members, setMembers] = useState([]);
-
-    const fetchingMembers = async () => {
-        const response = await fetch(firebaseLink);
-        if (!response.ok) {
-            throw new Error("Can not fetching members");
-        }
-
-        const responseData = await response.json();
-        let data = [];
-        for (const key in responseData) {
-            data.push(responseData[key]);
-        }
-
-        return data;
-    };
-
     const {
         register,
         handleSubmit,
@@ -41,51 +27,80 @@ const Login = () => {
         formState: { errors },
     } = useForm({
         mode: "onSubmit",
-        defaultValues: {
-            username: "uydung",
-            password: "",
-        },
+        // defaultValues: {
+        //     username: "uydung",
+        //     password: "",
+        // },
     });
 
-    useEffect(() => {
-        if (isLoggedIn ) {
-            history.push("/");
-        }
-    },[isLoggedIn]);
+    // const fetchingMembers = async () => {
+    //     const response = await fetch(firebaseLink);
+    //     if (!response.ok) {
+    //         throw new Error("Can not fetching members");
+    //     }
 
-    useEffect(async () => {
-        try {
-            const data = await fetchingMembers();
-            setMembers(data);
-        } catch (error) {
-            console.log(error.message);
-        }
-    }, []);
+    //     const responseData = await response.json();
+    //     let data = [];
+    //     for (const key in responseData) {
+    //         data.push(responseData[key]);
+    //     }
 
-    const validateLoginHandler = (username, password) => {
-        //1 check data empty or not
-        if (members.length === 0) {
-            console.log("data empty");
-            return;
-        }
-        const existingMember = members.find((member) => {
-            return member.username === username && member.password === password;
-        });
-        return existingMember;
+    //     return data;
+    // };
+
+    // useEffect(() => {
+    //     if (isLoggedIn ) {
+    //         navigate.push("/");
+    //     }
+    // },[isLoggedIn]);
+
+    // useEffect(async () => {
+    //     try {
+    //         const data = await fetchingMembers();
+    //         setMembers(data);
+    //     } catch (error) {
+    //         console.log(error.message);
+    //     }
+    // }, []);
+
+    // const validateLoginHandler = (username, password) => {
+    //     //1 check data empty or not
+    //     if (members.length === 0) {
+    //         console.log("data empty");
+    //         return;
+    //     }
+    //     const existingMember = members.find((member) => {
+    //         return member.username === username && member.password === password;
+    //     });
+    //     return existingMember;
+    // };
+
+    const formSubmitHandler = (data, event) => {
+        // const result = validateLoginHandler(data.username, data.password);
+        // if (result !== undefined) {
+        //     dispatch(authActions.loginHandler());
+        // } else {
+        //     dispatch(authActions.logoutHandler());
+        //     setErrorLogin("Username or password is incorrect!");
+        // }
+        console.log(errors);
+        console.log("clicked");
+        signInWithEmailAndPassword(auth, data.username, data.password)
+            .then((userCredential) => {
+                setErrorLogin("Login success");
+                console.log(userCredential);
+            })
+            .catch((error) => {
+                error.code === "auth/user-not-found"
+                    ? setErrorLogin("Incorrect email or password")
+                    : setErrorLogin(error.code);
+            });
+
+        event.target.reset();
     };
 
     const errorResetHandler = () => {
         setErrorLogin("");
-    };
-
-    const formSubmitHandler = (data, event) => {
-        const result = validateLoginHandler(data.username, data.password);
-        if (result !== undefined) {
-            dispatch(authActions.loginHandler());
-        } else {
-            dispatch(authActions.logoutHandler());
-            setErrorLogin("Username or password is incorrect!");
-        }
     };
 
     return (
@@ -101,8 +116,7 @@ const Login = () => {
                     type="text"
                     placeholder="Email"
                     autoComplete="off"
-                    {...register("username", { required: true })}
-                    onChange={errorResetHandler}
+                    {...register("username", { required: true, onChange: errorResetHandler })}
                 />
                 {errors.username?.type === "required" && (
                     <span className="text-red-500 italic text-sm">This field do not empty</span>
@@ -114,8 +128,7 @@ const Login = () => {
                     type="password"
                     autoComplete="off"
                     placeholder="Password"
-                    {...register("password", { required: true })}
-                    onChange={errorResetHandler}
+                    {...register("password", { required: true, onChange: errorResetHandler })}
                 />
                 {errors.username?.type === "required" && (
                     <span className="text-red-500 italic text-sm">This field do not empty</span>
@@ -125,9 +138,13 @@ const Login = () => {
             {errorLogin !== "" && <span className="text-red-500 italic text-sm">{errorLogin}</span>}
 
             <div className="">
-                <button className="bg-blue-600 text-white rounded px-6 pt-1 pb-2 hover:bg-red-500">Sign in</button>
+                <button type="submit" className="bg-blue-600 text-white rounded px-6 pt-1 pb-2 hover:bg-red-500">
+                    Sign in
+                </button>
             </div>
-            <Link to="/forgotPassword" className="text-blue-400 hover:text-red-700">Need help?</Link>
+            <Link to="/forgotPassword" className="text-blue-400 hover:text-red-700">
+                Need help?
+            </Link>
         </form>
     );
 };

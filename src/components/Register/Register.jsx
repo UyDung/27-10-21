@@ -1,13 +1,16 @@
-import { useHistory, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
+import { getAuth, createUserWithEmailAndPassword } from "@firebase/auth";
 import { useRegister } from "../../hooks/use-Register";
 import classes from "./Register.module.css";
 
 const Register = () => {
     const [member, setMember] = useState({});
-    const history = useHistory();
+    const navigate = useNavigate();
+    const auth = getAuth();
+
     const {
         register,
         handleSubmit,
@@ -17,12 +20,21 @@ const Register = () => {
     } = useForm({ mode: "all" });
 
     const signupHandler = ({ username, email, phone, password }, event) => {
-        const member = { username, email, phone, password };
-        setMember(member);
-        console.log(member);
-        event.target.reset();
-        history.goBack();
+        // const member = { username, email, phone, password };
+        // setMember(member);
+
+        createUserWithEmailAndPassword(auth, email, password).then(userCredential => {
+            console.table(userCredential);
+        }).catch(error => {
+            console.log('email is already exit');
+        })
+
+       
+        navigate('/');
+        // history.goBack();
     };
+
+    
  
     return (
         <div className="w-80  my-28 mx-auto p-4 box-shadow rounded bg-white">

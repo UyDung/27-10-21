@@ -1,25 +1,25 @@
+import { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import { BsBagCheck } from "react-icons/bs";
 
-import css from "./HeaderCartButton.module.css";
+
 
 const HeaderCartButton = () => {
+    const [badgeClasses, setBadgeClasses] = useState('absolute -top-4 -right-2 text-sm animate-ping ');
     const cartItems = useSelector((state) => state.cart.items);
     const cartQuantity = cartItems.reduce((prevValue, currentValue) => {  return prevValue + currentValue.quantity}, 0);
-
-    const history = useHistory();
-
-    const goToCartHandler = () => history.push("/cart");
-
+    const navigate = useNavigate();
+    const goToCartHandler = () => navigate("/cart");
+    
     return (
-        <button onClick={goToCartHandler} className={css.btn}>
-            <span className={css.title}>
+        <button onClick={goToCartHandler} className="flex relative text-xl">
+            <span className="">
                 <BsBagCheck />
             </span>
-            <span className={css.badge}>{cartQuantity}</span>
+            <span className={badgeClasses}>{cartQuantity}</span>
         </button>
     );
 };

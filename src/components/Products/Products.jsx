@@ -1,6 +1,6 @@
+import { useSelector } from 'react-redux';
 import ProductItem from "./ProductItem";
-
-import classes from "./Products.module.css";
+ 
 
 const DUMMY_PRODUCTS = [
     {
@@ -153,8 +153,11 @@ const DUMMY_PRODUCTS = [
     },
 ];
 
-const Products = () => {
-    const listProducts = DUMMY_PRODUCTS.map((product) => (
+const Products = () => {    
+    const products = useSelector(state => state.products.products);
+    
+ 
+    const listProducts = products.map(product => (   
         <ProductItem
             key={product.id}
             id={product.id}
@@ -165,7 +168,11 @@ const Products = () => {
         />
     ));
 
-    return <ul className="px-10 md:px-15 lg:px-20 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 mb-8">{listProducts}</ul>;
+    return (
+        <ul className="px-10 md:px-15 lg:px-20 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 mb-8">
+            {listProducts}
+        </ul>
+    );
 };
 
 export default Products;

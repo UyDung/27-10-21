@@ -1,19 +1,19 @@
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import classes from "./Cart.module.css";
 import CartItem from "./CartItem";
 import OrderForm from "../Order/OrderForm";
 
 const Cart = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const isLoggedIn = useSelector((state) => state.auth.login);
     const listItems = useSelector((state) => state.cart.items);
     const totalPrice = useSelector((state) => state.cart.totalPriceCart).toFixed(2);
 
-    const closeCartHandler = () => history.push("/");
+    const closeCartHandler = () => navigate("/");
 
     const goLoginHandler = () => {
-        history.push("/login");
+        navigate("/login");
     };
 
     const cartItems = listItems.map((item) => (
