@@ -3,13 +3,14 @@ import { useSelector } from "react-redux";
 import classes from "./Cart.module.css";
 import CartItem from "./CartItem";
 import OrderForm from "../Order/OrderForm";
+import { v4 as uuid_v4 } from "uuid";
 
 const Cart = () => {
     const navigate = useNavigate();
-    const isLoggedIn = useSelector((state) => state.auth.login);
+    const isLoggedIn = useSelector((state) => state.auth.token);
     const listItems = useSelector((state) => state.cart.items);
     const totalPrice = useSelector((state) => state.cart.totalPriceCart).toFixed(2);
-
+    
     const closeCartHandler = () => navigate("/");
 
     const goLoginHandler = () => {
@@ -17,7 +18,7 @@ const Cart = () => {
     };
 
     const cartItems = listItems.map((item) => (
-        <li className="inline-block"><CartItem key={item.id} id={item.id} title={item.name} price={item.price} quantity={item.quantity} /></li>
+        <li className="inline-block"><CartItem key={uuid_v4()} id={item.id} title={item.name} price={item.price} quantity={item.quantity} /></li>
     ));
     return (
         <div className={`mt-28 w-11/12 text-sm lg:w-10/12 xl:w-3/6 mx-auto py-4 px-8 grid grid-flow-row gap-4 bg-white rounded`}>
@@ -36,7 +37,7 @@ const Cart = () => {
                 <h3 className="text-2xl">Total</h3>
                 <span className="text-2xl"> $ {totalPrice}</span>
             </div>
-            {isLoggedIn && <OrderForm />}
+            {isLoggedIn && listItems.length !== 0 && <OrderForm />}
             <div className="ml-auto">
                 {!isLoggedIn && (
                     <button className=" text-sm bg-purple-500 text-white rounded  py-2 px-6  mr-4 hover:opacity-70" onClick={goLoginHandler} disabled={!listItems.length > 0}>

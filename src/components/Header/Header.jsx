@@ -5,7 +5,7 @@ import { Link, NavLink } from "react-router-dom";
 import HeaderCartButton from "./HeaderCartButton";
 
 const Header = () => {   
-    const isLoggedIn = useSelector((state) => state.auth.login);
+    const isLoggedIn = useSelector((state) => state.auth.token);
     const dispatch = useDispatch();
 
     const logoutHandler = () => {
@@ -51,9 +51,9 @@ const Header = () => {
                 )}
 
                 {isLoggedIn && (
-                    <Link onClick={logoutHandler} className="hover:text-red-500 text-sm" id="logout">
+                    <button onClick={logoutHandler} className="hover:text-red-500 text-sm" id="logout">
                         Logout
-                    </Link>
+                    </button>
                 )}
 
                 {!isLoggedIn && (

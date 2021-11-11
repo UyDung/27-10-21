@@ -50,7 +50,7 @@ export const fetchingData = () => {
 
 export const transDataToLocal = (cart) => {
     localStorage.setItem(LOCAL_KEY, JSON.stringify({items: cart.items, totalPriceCart: cart.totalPriceCart}));
-    // console.log('Send success');
+    
 };
 
 export const getDataFromLocal = () => {

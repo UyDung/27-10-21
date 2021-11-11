@@ -1,16 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+    user: '',
+    email: '',
+    login: false,
+    token: '',
+    changed: false
+}
 const authSlice = createSlice({
     name: 'auth',
-    initialState: {login: false, changed: false},
+    initialState,
     reducers: {
-        loginHandler(state ) {
-            state.login = true;
-            state.changed = true;
+        loginHandler(state, action ) {
+            const token = action.payload;           
+            state.token = token;            
+            state.changed = true;     
+            localStorage.setItem(process.env.REACT_APP_LOCAL_KEY, token);        
         },
         logoutHandler(state ) {
-            state.login = false;
+            state.token = '';
             state.changed = true;
+            localStorage.removeItem(process.env.REACT_APP_LOCAL_KEY);
         },
         replaceLogin(state, action) {
             state.login = action.payload.login;

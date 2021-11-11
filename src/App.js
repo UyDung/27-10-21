@@ -5,54 +5,46 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { productActions } from "./store/products-Slice";
 import productApi from "./api/productApi";
 import app from "./firebase";
-import { transDataToLocal, getDataFromLocal } from "./store/cart-Actions";
+import { transDataToLocal } from "./store/cart-Actions";
 import Cart from "./components/Cart/Cart";
 import Header from "./components/Header/Header";
 import Login from "./components/Login/Login";
-import { sendLogginState, replaceLoginState } from "./store/auth-Slice";
 import Register from "./components/Register/Register";
 import Product from "./pages/Product";
-import Admin from "./pages/Admin";
+import Admin from "./pages/Admin"; 
 import ProductDetail from "./components/Products/ProductDetail";
+import { authActions } from "./store/auth-Slice";
 
-function App() {   
+function App() {
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
-    const loggedIn = useSelector((state) => state.auth);
-
-    // useEffect(() => {
-    //     dispatch(replaceLoginState());
-    // }, [dispatch]);
-
+    const token = localStorage.getItem(process.env.REACT_APP_LOCAL_KEY);
+     
     useEffect(() => {
-        if (loggedIn.changed) {
-            sendLogginState(loggedIn.login);
+        if(token) {
+            dispatch(authActions.loginHandler(token));
         }
-    });
+    }, []);
 
-    useEffect(() => {
-        dispatch(getDataFromLocal());
-    }, [dispatch]);
-
-    useEffect(() => {
+    useEffect(() => { 
         if (!cart.isInitial) {
             transDataToLocal(cart);
         }
     }, [cart]);
 
-    useEffect( async() => {
+    useEffect(async () => {
         const fetchingProducts = async () => {
             const responseData = await productApi.getAll();
             let data = [];
             for (const key in responseData) {
                 data.push(responseData[key]);
-            } 
+            }
             return data;
         };
 
         try {
             const productList = await fetchingProducts();
-            dispatch(productActions.replaceProducts(productList));           
+            dispatch(productActions.replaceProducts(productList));
         } catch (error) {
             console.log("Some thing went wrong " + error);
         }

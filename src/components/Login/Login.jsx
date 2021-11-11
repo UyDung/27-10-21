@@ -15,11 +15,11 @@ const firebaseLink = "https://project-2532894124166455430-default-rtdb.firebasei
 
 const Login = () => {
     const auth = getAuth();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const isLoggedIn = useSelector((state) => state.auth.login);
+    const dispatch = useDispatch(); 
+    const isLoggedIn = useSelector((state) => state.auth.token);
     const [errorLogin, setErrorLogin] = useState("");
-    const [members, setMembers] = useState([]);
+
     const {
         register,
         handleSubmit,
@@ -27,73 +27,25 @@ const Login = () => {
         formState: { errors },
     } = useForm({
         mode: "onSubmit",
-        // defaultValues: {
-        //     username: "uydung",
-        //     password: "",
-        // },
     });
 
-    // const fetchingMembers = async () => {
-    //     const response = await fetch(firebaseLink);
-    //     if (!response.ok) {
-    //         throw new Error("Can not fetching members");
-    //     }
-
-    //     const responseData = await response.json();
-    //     let data = [];
-    //     for (const key in responseData) {
-    //         data.push(responseData[key]);
-    //     }
-
-    //     return data;
-    // };
-
-    // useEffect(() => {
-    //     if (isLoggedIn ) {
-    //         navigate.push("/");
-    //     }
-    // },[isLoggedIn]);
-
-    // useEffect(async () => {
-    //     try {
-    //         const data = await fetchingMembers();
-    //         setMembers(data);
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // }, []);
-
-    // const validateLoginHandler = (username, password) => {
-    //     //1 check data empty or not
-    //     if (members.length === 0) {
-    //         console.log("data empty");
-    //         return;
-    //     }
-    //     const existingMember = members.find((member) => {
-    //         return member.username === username && member.password === password;
-    //     });
-    //     return existingMember;
-    // };
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate("/");
+        }
+    }, []);
 
     const formSubmitHandler = (data, event) => {
-        // const result = validateLoginHandler(data.username, data.password);
-        // if (result !== undefined) {
-        //     dispatch(authActions.loginHandler());
-        // } else {
-        //     dispatch(authActions.logoutHandler());
-        //     setErrorLogin("Username or password is incorrect!");
-        // }
-        console.log(errors);
-        console.log("clicked");
         signInWithEmailAndPassword(auth, data.username, data.password)
-            .then((userCredential) => {
-                setErrorLogin("Login success");
-                console.log(userCredential);
+            .then((userCredential) => {               
+                const accessToken = userCredential.user["accessToken"];               
+                dispatch(authActions.loginHandler(accessToken));
+                navigate(-1);
             })
             .catch((error) => {
                 error.code === "auth/user-not-found"
                     ? setErrorLogin("Incorrect email or password")
-                    : setErrorLogin(error.code);
+                    : setErrorLogin('Catch '+ error.code);
             });
 
         event.target.reset();
@@ -142,9 +94,9 @@ const Login = () => {
                     Sign in
                 </button>
             </div>
-            <Link to="/forgotPassword" className="text-blue-400 hover:text-red-700">
+            {/* <Link to="/forgotPassword" className="text-blue-400 hover:text-red-700">
                 Need help?
-            </Link>
+            </Link> */}
         </form>
     );
 };

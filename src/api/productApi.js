@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 
-const url = "/products.json";
+const url = "https://project-2532894124166455430-default-rtdb.firebaseio.com/products.json";
 
 const productApi = {
     getAll: (params) => {
@@ -15,6 +15,9 @@ const productApi = {
     add: ({ id, title, image, previewDescription, detailDescription, price }) => {
         return axiosClient.post(url, { id, title, image, previewDescription, detailDescription, price });
     },
+    post: (params) => {
+        return axiosClient.post(url, { params });
+    }
 };
 
 export default productApi;
