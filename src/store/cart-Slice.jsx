@@ -32,6 +32,7 @@ const cartSlice = createSlice({
         replaceCart(state, action) {
              state.items = action.payload.items;
              state.totalPriceCart  = action.payload.totalPriceCart;
+             state.isInitial= true;
         },
         removeItemFromCart(state, action) {
             state.isInitial = false;
@@ -48,27 +49,7 @@ const cartSlice = createSlice({
         },
     },
 });
-
-// export const sendDataAction = async (cart) => {
-//     return async () => {
-//         const sendRequest = async () => {
-//             const response = await fetch(`${firebase_link}/cart.json`, {
-//                 method: "PUT",
-//                 body: JSON.stringify(cart),
-//             });
-
-//             if (!response.ok) {
-//                 throw new Error("Some thing went wrong");
-//             }
-//         };
-
-//         try {
-//             await sendRequest();
-//         } catch (error) {
-//             console.log(error.mesage);
-//         }
-//     };
-// };
+ 
 
 export const cartActions = cartSlice.actions;
 export default cartSlice;

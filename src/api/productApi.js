@@ -8,8 +8,7 @@ const productApi = {
     },
 
     get: (id) => {
-        const getUrl = `${url}/${id}`;
-        return axiosClient.get(url);
+        return axiosClient.get(url, id);
     },
 
     add: ({ id, title, image, previewDescription, detailDescription, price }) => {
@@ -17,7 +16,7 @@ const productApi = {
     },
     post: (params) => {
         return axiosClient.post(url, { params });
-    }
+    },
 };
 
 export default productApi;

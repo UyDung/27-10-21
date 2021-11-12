@@ -28,7 +28,7 @@ const ProductDetail = () => {
         } catch (error) {
             console.error("Some thing went wrong: " + error);
         }
-    }, []);
+    }, [productId]);
 
     const { id, title, detailDescription, image, price } = product;
 

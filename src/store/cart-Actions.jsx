@@ -49,22 +49,13 @@ export const fetchingData = () => {
 };
 
 export const transDataToLocal = (cart) => {
-    localStorage.setItem(LOCAL_KEY, JSON.stringify({items: cart.items, totalPriceCart: cart.totalPriceCart}));
-    
+    localStorage.setItem(LOCAL_KEY, JSON.stringify({ items: cart.items, totalPriceCart: cart.totalPriceCart }));
 };
 
 export const getDataFromLocal = () => {
     return (dispatch) => {
-        try {
-            const data = JSON.parse(localStorage.getItem(LOCAL_KEY));
-            if (!data) {
-                throw new Error("Local key not exit");
-            }
-
-            dispatch(cartActions.replaceCart(data));
-            console.log('Fetching success');
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
+        const data = localStorage.getItem(LOCAL_KEY);
+        // dispatch(cartActions.replaceCart(data));
+        console.log(data);
+    }
 };

@@ -11,28 +11,34 @@ import Header from "./components/Header/Header";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import Product from "./pages/Product";
-import Admin from "./pages/Admin"; 
+import Admin from "./pages/Admin";
 import ProductDetail from "./components/Products/ProductDetail";
-import { authActions } from "./store/auth-Slice";
+import { authActions } from "./store/auth-Slice"; 
+import { getDataFromLocal } from "./store/cart-Actions";
 
 function App() {
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
     const token = localStorage.getItem(process.env.REACT_APP_LOCAL_KEY);
-     
+
     useEffect(() => {
-        if(token) {
+        if (token) {
             dispatch(authActions.loginHandler(token));
         }
-    }, []);
+       
+    }, [dispatch]);
 
-    useEffect(() => { 
+    useEffect(() => {
+      getDataFromLocal();
+    });
+  
+    useEffect(() => {
         if (!cart.isInitial) {
             transDataToLocal(cart);
         }
     }, [cart]);
 
-    useEffect(async () => {
+    useEffect( async() => {
         const fetchingProducts = async () => {
             const responseData = await productApi.getAll();
             let data = [];
@@ -43,12 +49,12 @@ function App() {
         };
 
         try {
-            const productList = await fetchingProducts();
+            const productList =  await fetchingProducts();
             dispatch(productActions.replaceProducts(productList));
         } catch (error) {
             console.log("Some thing went wrong " + error);
         }
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="App">

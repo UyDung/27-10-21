@@ -28,7 +28,7 @@ export const useRegister = ({ username, email, phone, password }) => {
     };
 
     try {
-        sendRegister();
+        sendRegister(newMember);
     } catch (error) {
         console.log(error.message);
     }

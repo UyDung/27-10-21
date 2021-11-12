@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { authActions } from "../../store/auth-Slice";
 import classes from "./Login.module.css";
-import { fetchingData } from "../../store/cart-Actions";
+// import { fetchingData } from "../../store/cart-Actions";
 // 1 Nhap username password
 //2 Tim kiem trong mang data tren firebase xem co username va password do khong ?
 //3 Co thi login, khong co thi bao sai username password, nhap lai ko duoc thi email de change password
-
-const firebaseLink = "https://project-2532894124166455430-default-rtdb.firebaseio.com/members.json";
 
 const Login = () => {
     const auth = getAuth();
@@ -23,7 +21,6 @@ const Login = () => {
     const {
         register,
         handleSubmit,
-        reset,
         formState: { errors },
     } = useForm({
         mode: "onSubmit",
@@ -48,7 +45,7 @@ const Login = () => {
                     : setErrorLogin('Catch '+ error.code);
             });
 
-        event.target.reset();
+         
     };
 
     const errorResetHandler = () => {

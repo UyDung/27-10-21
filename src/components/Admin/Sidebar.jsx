@@ -25,26 +25,25 @@ const Sidebar = () => {
 
     return (
         <div className={`${classes.sidebar} w-60 bg-gray-800 text-white p-4 flex flex-col gap-2`}>
-           
             <h3 className="text-center uppercase bg-red-300">
                 <Link to="#products">Products</Link>
             </h3>
             <ul className="" id="">
                 <li className="flex items-center gap-2">
                     <AiFillCheckCircle />
-                    <NavLink className="hover:text-pink-700" activeClassName="border-2 shadow" to="AmericanCake">
+                    <NavLink className="hover:text-pink-700" to="AmericanCake">
                         Bánh táo Mỹ
                     </NavLink>
                 </li>
                 <li className="flex items-center gap-2">
                     <AiFillDingtalkCircle />
-                    <NavLink className="hover:text-pink-700" activeClassName="border-2 shadow" to="AmericanCake">
+                    <NavLink className="hover:text-pink-700" to="AmericanCake">
                         Bánh Mochi Nhật Bản
                     </NavLink>
                 </li>
                 <li className="flex items-center gap-2">
                     <AiFillDropboxCircle />
-                    <NavLink className="hover:text-pink-700" activeClassName="border-2 shadow" to="AmericanCake">
+                    <NavLink className="hover:text-pink-700" to="AmericanCake">
                         Bánh Tiramisu Ý
                     </NavLink>
                 </li>
@@ -52,51 +51,31 @@ const Sidebar = () => {
                     <>
                         <li className="flex items-center gap-2">
                             <AiFillGitlab />
-                            <NavLink
-                                className="hover:text-pink-700"
-                                activeClassName="border-2 shadow"
-                                to="AmericanCake"
-                            >
+                            <NavLink className="hover:text-pink-700" to="AmericanCake">
                                 Bánh Macaron Pháp.
                             </NavLink>
                         </li>
                         <li className="flex items-center gap-2">
                             <AiFillHeart />
-                            <NavLink
-                                className="hover:text-pink-700"
-                                activeClassName="border-2 shadow"
-                                to="AmericanCake"
-                            >
+                            <NavLink className="hover:text-pink-700" to="AmericanCake">
                                 Bánh Tapioca Brazil.
                             </NavLink>
                         </li>
                         <li className="flex items-center gap-2">
                             <AiFillInsurance />
-                            <NavLink
-                                className="hover:text-pink-700"
-                                activeClassName="border-2 shadow"
-                                to="AmericanCake"
-                            >
+                            <NavLink className="hover:text-pink-700" to="AmericanCake">
                                 Bánh Sachertorte Áo.
                             </NavLink>
                         </li>
                         <li className="flex items-center gap-2">
                             <AiFillMediumCircle />
-                            <NavLink
-                                className="hover:text-pink-700"
-                                activeClassName="border-2 shadow"
-                                to="AmericanCake"
-                            >
+                            <NavLink className="hover:text-pink-700" to="AmericanCake">
                                 Bánh Pavlova Úc.
                             </NavLink>
                         </li>
                         <li className="flex items-center gap-2">
                             <AiFillSketchCircle />
-                            <NavLink
-                                className="hover:text-pink-700"
-                                activeClassName="border-2 shadow"
-                                to="AmericanCake"
-                            >
+                            <NavLink className="hover:text-pink-700" to="AmericanCake">
                                 Bánh Black Forest Đức.
                             </NavLink>
                         </li>
@@ -110,12 +89,11 @@ const Sidebar = () => {
 
             <h3 className="text-center uppercase p-0 bg-">Profiles</h3>
             <div className="profiles flex flex-col">
-                <Link>Update avatar</Link>
-                <Link>Update email</Link>
-                <Link>Update username</Link>
-                <Link>Change password</Link>
+                <Link to='#updateAvatar'>Update avatar</Link>
+                <Link to='#updateEmail'>Update email</Link>
+                <Link to='#updateUsername'>Update username</Link>
+                <Link to='#ChangePassword'>Change password</Link>
             </div>
-
         </div>
     );
 };
