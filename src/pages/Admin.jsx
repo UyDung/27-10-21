@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 
 import DatePicker from 'react-datepicker';
 
-import Header from '../components/Admin/Header';
-import Sidebar from '../components/Admin/Sidebar';
+import Header from '../components/auth/Admin/Header';
+import Sidebar from '../components/auth/Admin/Sidebar';
 import classes from './Admin.module.css';
 
 const Admin = () => {

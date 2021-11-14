@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { login, useAuth } from "../../firebase";
 import { authActions } from "../../store/auth-Slice";
 import classes from "./Login.module.css";
 // import { fetchingData } from "../../store/cart-Actions";
@@ -12,9 +12,9 @@ import classes from "./Login.module.css";
 //3 Co thi login, khong co thi bao sai username password, nhap lai ko duoc thi email de change password
 
 const Login = () => {
-    const auth = getAuth();
     const navigate = useNavigate();
-    const dispatch = useDispatch(); 
+    const currentUser = useAuth();
+    const dispatch = useDispatch();
     const isLoggedIn = useSelector((state) => state.auth.token);
     const [errorLogin, setErrorLogin] = useState("");
 
@@ -27,25 +27,20 @@ const Login = () => {
     });
 
     useEffect(() => {
-        if (isLoggedIn) {
+        if (currentUser) {
             navigate("/");
         }
-    }, []);
+    });
 
-    const formSubmitHandler = (data, event) => {
-        signInWithEmailAndPassword(auth, data.username, data.password)
-            .then((userCredential) => {               
-                const accessToken = userCredential.user["accessToken"];               
-                dispatch(authActions.loginHandler(accessToken));
-                navigate(-1);
-            })
-            .catch((error) => {
-                error.code === "auth/user-not-found"
-                    ? setErrorLogin("Incorrect email or password")
-                    : setErrorLogin('Catch '+ error.code);
-            });
-
-         
+    const loginHandler = async (data) => {
+        try {
+            await login(data.username, data.password);
+            navigate(-1);
+        } catch (error) {
+            error.code === "auth/user-not-found"
+                ? setErrorLogin("Incorrect email or password")
+                : setErrorLogin("Error: " + error.code);
+        }
     };
 
     const errorResetHandler = () => {
@@ -54,7 +49,7 @@ const Login = () => {
 
     return (
         <form
-            onSubmit={handleSubmit(formSubmitHandler)}
+            onSubmit={handleSubmit(loginHandler)}
             className=" mt-40 mx-auto w-80  bg-white rounded shadow py-4  px-6 flex flex-col gap-6 items-center"
         >
             <h3 className="text-2xl font-bold">Login Form</h3>

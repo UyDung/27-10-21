@@ -1,15 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../../store/auth-Slice";
+import { authActions } from "../../../store/auth-Slice";
 import { Link, NavLink } from "react-router-dom";
  
+import { useAuth, logout } from '../../../firebase';
 import HeaderCartButton from "./HeaderCartButton";
 
 const Header = () => {   
     const isLoggedIn = useSelector((state) => state.auth.token);
     const dispatch = useDispatch();
+    const currentUser = useAuth();
 
     const logoutHandler = () => {
-        dispatch(authActions.logoutHandler());
+        // dispatch(authActions.logoutHandler());
+        logout();
     };
 
     return (
@@ -41,8 +44,11 @@ const Header = () => {
                 <HeaderCartButton />
             </div>
 
+            <div>
+               Current user:  {currentUser?.email }
+            </div>
             <div className="flex items-center content-between">
-                {!isLoggedIn && (
+                {currentUser === null && (
                     <Link to="/login" className="hover:text-red-500 mr-1 text-sm">
                         <button className="" id="login">
                         Sign in
@@ -50,13 +56,13 @@ const Header = () => {
                     </Link>
                 )}
 
-                {isLoggedIn && (
+                {currentUser !== null && (
                     <button onClick={logoutHandler} className="hover:text-red-500 text-sm" id="logout">
                         Logout
                     </button>
-                )}
+               )}  
 
-                {!isLoggedIn && (
+                {currentUser === null && (
                     <Link className="hover:text-red-500  text-sm" to="/register">
                         <button className="" id="register">
                             Register

@@ -4,16 +4,17 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import { productActions } from "./store/products-Slice";
 import productApi from "./api/productApi";
-import app from "./firebase";
+
+ 
 import { transDataToLocal } from "./store/cart-Actions";
-import Cart from "./components/Cart/Cart";
-import Header from "./components/Header/Header";
-import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
+import Cart from "./components/products/Cart/Cart";
+import Header from "./components/layout/Header/Header";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
 import Product from "./pages/Product";
 import Admin from "./pages/Admin";
-import ProductDetail from "./components/Products/ProductDetail";
-import { authActions } from "./store/auth-Slice"; 
+import ProductDetail from "./components/products/ProductDetail";
+import { authActions } from "./store/auth-Slice";
 import { getDataFromLocal } from "./store/cart-Actions";
 
 function App() {
@@ -25,20 +26,19 @@ function App() {
         if (token) {
             dispatch(authActions.loginHandler(token));
         }
-       
-    }, [dispatch]);
+    }, []);
 
     useEffect(() => {
-      getDataFromLocal();
-    });
-  
+        dispatch(getDataFromLocal());
+    }, []);
+
     useEffect(() => {
         if (!cart.isInitial) {
             transDataToLocal(cart);
         }
     }, [cart]);
 
-    useEffect( async() => {
+    useEffect(async () => {
         const fetchingProducts = async () => {
             const responseData = await productApi.getAll();
             let data = [];
@@ -49,7 +49,7 @@ function App() {
         };
 
         try {
-            const productList =  await fetchingProducts();
+            const productList = await fetchingProducts();
             dispatch(productActions.replaceProducts(productList));
         } catch (error) {
             console.log("Some thing went wrong " + error);

@@ -4,7 +4,7 @@ import { v4 as uuid_v4 } from "uuid";
 
 import classes from "./Cart.module.css";
 import CartItem from "./CartItem";
-import OrderForm from "../Order/OrderForm";
+import OrderForm from "./OrderForm";
 
  
  
@@ -23,7 +23,7 @@ const Cart = () => {
     };
 
     const cartItems = listItems.map((item) => (
-        <li className="inline-block"><CartItem key={uuid_v4()} id={item.id} title={item.name} price={item.price} quantity={item.quantity} /></li>
+        <li key={uuid_v4()} className="inline-block"><CartItem  id={item.id} title={item.name} price={item.price} quantity={item.quantity} /></li>
     ));
     return (
         <div className={`mt-28 w-11/12 text-sm lg:w-10/12 xl:w-3/6 mx-auto py-4 px-8 grid grid-flow-row gap-4 bg-white rounded`}>

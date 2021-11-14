@@ -54,8 +54,7 @@ export const transDataToLocal = (cart) => {
 
 export const getDataFromLocal = () => {
     return (dispatch) => {
-        const data = localStorage.getItem(LOCAL_KEY);
-        // dispatch(cartActions.replaceCart(data));
-        console.log(data);
-    }
+        const data = JSON.parse(localStorage.getItem(LOCAL_KEY));
+        dispatch(cartActions.replaceCart(data));       
+    };
 };

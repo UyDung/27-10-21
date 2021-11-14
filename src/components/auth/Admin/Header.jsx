@@ -1,7 +1,7 @@
 import { AiOutlineBars, AiOutlineBell, AiOutlineSetting } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 
-import avatarSrc from "../../assets/avatar.jpg";
+import avatarSrc from "../../../assets/avatar.jpg";
 
 const Header = () => {
     return (

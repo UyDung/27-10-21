@@ -1,15 +1,13 @@
 import { useNavigate, Link } from "react-router-dom";
-// import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
 
-import { getAuth, createUserWithEmailAndPassword } from "@firebase/auth";
-// import { useRegister } from "../../hooks/use-Register";
-// import classes from "./Register.module.css";
+import { useForm } from "react-hook-form";
+import { signup, useAuth } from "../../firebase";
 
 const Register = () => {
+    const currentUser = useAuth();
     const navigate = useNavigate();
-    const auth = getAuth();
-
+    const [isLoading, setIsLoading] = useState(false);
     const {
         register,
         handleSubmit,
@@ -18,14 +16,18 @@ const Register = () => {
         formState: { errors },
     } = useForm({ mode: "all" });
 
-    const signupHandler = ({ email, password }) => {
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                console.table(userCredential);
-            })
-            .catch((error) => {
-                console.log("email is already exit");
-            });
+    useEffect(() => {
+        if (currentUser) navigate("/");
+    }, [currentUser]);
+
+    const signupHandler = async ({ email, password }) => {
+        setIsLoading(true);
+        try {
+            await signup(email, password);
+        } catch (error) {
+            alert(error);
+        }
+        setIsLoading(false);
 
         navigate("/");
     };
@@ -36,49 +38,6 @@ const Register = () => {
                 <h3 className="mb-4 text-center font-bold text-2xl">Register</h3>
             </div>
             <form onSubmit={handleSubmit(signupHandler)} className="flex flex-col gap-2">
-                <div className="flex flex-col gap-1">
-                    <label htmlFor="username" className="text-md">
-                        Username (*)
-                    </label>
-                    <input
-                        className="outline-none border-2 rounded w-full py-1 px-2"
-                        type="text"
-                        autoComplete="off"
-                        placeholder="Uy Dung"
-                        {...register("username", { required: true, minLength: 6 })}
-                    />
-                    {errors.username?.type === "required" && (
-                        <p className="text-red-500 italic text-sm">This field cannot be left blank</p>
-                    )}
-                    {errors.username?.type === "minLength" && (
-                        <p className="text-red-500 italic text-sm">Should have least 6 characters</p>
-                    )}
-                </div>
-
-                <div className="">
-                    <label htmlFor="phone" className="text-md">
-                        Phone (*)
-                    </label>
-                    <input
-                        className="outline-none border-2 rounded w-full py-1 px-2"
-                        {...register("phone", {
-                            required: true,
-                            pattern: {
-                                value: /^[0-9\-\+]{9,15}$/,
-                            },
-                        })}
-                        type="text"
-                        autoComplete="off"
-                        placeholder="0398 645 078"
-                    />
-                    {errors.phone?.type === "required" && (
-                        <p className="text-red-500 italic text-sm">This field cannot be left blank</p>
-                    )}
-                    {errors.phone?.type === "pattern" && (
-                        <p className="text-red-500 italic text-sm">Invalid phone number</p>
-                    )}
-                </div>
-
                 <div className="">
                     <label htmlFor="" className="text-md">
                         Email (*)
@@ -161,6 +120,7 @@ const Register = () => {
                 <div className="ml-auto">
                     <button
                         type="submit"
+                        disabled={isLoading}
                         className="rounded border-2 mr-4 px-2 py-1 bg-blue-500 text-gray-300 hover:bg-indigo-600"
                     >
                         Sign Up
