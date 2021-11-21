@@ -47,6 +47,9 @@ const cartSlice = createSlice({
                 existingItem.totalPriceOfItem -= existingItem.price;
             }
         },
+        resetInitial(state) {
+            state.isInitial = true;
+        }
     },
 });
  

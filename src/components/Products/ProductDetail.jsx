@@ -6,6 +6,8 @@ import { cartActions } from "../../store/cart-Slice";
 import productApi from "../../api/productApi";
 
 import classes from "./ProductDetail.module.css";
+import { Button, Box, Typography } from "@mui/material";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const ProductDetail = () => {
     const dispatch = useDispatch();
@@ -32,29 +34,24 @@ const ProductDetail = () => {
 
     const { id, title, detailDescription, image, price } = product;
 
-    const addToCartHandler = (event) => {
+    const addToCartHandler = () => {
         dispatch(cartActions.addItemToCart({ id, title, price }));
     };
 
     return (
-        <div className={`${classes["product-detail"]} w-9/12 m-auto mt-40 flex gap-4`}>
-            <div className="lef w-1/2 flex flex-col items-center ">
-                <img src={image} alt={title} className=" rounded  w-full h-full object-cover mb-2" />
-            </div>
-            <div className="right w-1/2   flex flex-col items-start justify-start ">
-                <h3 to={`product-${id}`} className={`${classes.title} font-bold text-lg mb-4 }`}>
+        <Box component='div' sx={{margin: '20vh auto 0 auto', maxWidth: '70vw', display: 'flex', gap: '3rem'}}>
+            <Box component='div' >
+                <img src={image} alt={title} />
+            </Box>
+            <Box sx={{}}>
+                <Typography variant='h5'>
                     {title}
-                </h3>
-                <p className={`${classes.description} `}>{detailDescription}</p>
-                <p className={`${classes.price} font-bold  mb-2`}>$ {price}</p>
-                <button
-                    className=" rounded hover:bg-red-500 bg-blue-500 active:bg-red-700 py-1 px-3 text-white "
-                    onClick={addToCartHandler}
-                >
-                    Add to Cart
-                </button>
-            </div>
-        </div>
+                </Typography>
+                <Typography sx={{lineHeight: '1.7'}}>{detailDescription}</Typography>
+                <Typography mb={1}>$ {price}</Typography>
+                <Button variant='contained' onClick={addToCartHandler} startIcon={<AddShoppingCartIcon />}>Add To Cart</Button>
+            </Box>
+        </Box>
     );
 };
 

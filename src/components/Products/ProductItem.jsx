@@ -1,32 +1,88 @@
-import { Link } from 'react-router-dom';
+ 
+
+import { Link } from "react-router-dom";
 import { cartActions } from "../../store/cart-Slice";
 import { useDispatch } from "react-redux";
 
-import classes from "./ProductItem.module.css";
+import { makeStyles } from "@mui/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+// import classes from "./ProductItem.module.css";
+import { Alert, Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+
+const useStyles = makeStyles({
+    grid: {
+        width: "300px",
+        margin: "0 auto",
+    },
+    card: {
+        padding: "0.5rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "space-between",        
+        width: "100%",
+        height: '100%'
+    },
+    media: {
+        width: "100%",
+        height: "250px",
+        objectFit: "cover",
+        borderRadius: "2px",
+    },
+    price: {
+        marginTop: "auto",
+        fontWeight: "bold",
+    },
+    title: {
+        fontWeight: "bold",
+        color: "#FFA500",
+        fontSize: "1.2rem",
+    },
+});
 
 const ProductItem = ({ id, title, price, image, description }) => {
-   
     const dispatch = useDispatch();
+    const classes = useStyles();
+     
 
     const addToCartHandler = () => {
         dispatch(cartActions.addItemToCart({ id, title, price }));
+        
     };
 
-    
-
     return (
-        <li className={`${classes.items} flex flex-col items-center rounded shadow  p-4 text-center`}>
-            <Link to={`product-${id}`} className='font-bold text-lg mb-4 text-blue-400 hover:text-blue-600'>{title}</Link>
-            <img src={image} alt={title} className=" rounded w-full h-48  object-cover mb-2" />
-            <p className={`${classes.description} `}>{description}</p>
-            <p className={`${classes.price} font-bold mt-auto mb-2`}>$ {price}</p>
-            <button
-                className=" rounded hover:bg-red-500 outline-none bg-blue-500 active:bg-red-700 py-1 px-3 text-white "
-                onClick={addToCartHandler}
-            >
-                Add to Cart
-            </button>
-        </li>
+        <>
+            <CssBaseline />
+            
+            <Grid item key={id} className={classes.grid} xs={12} sm={6} md={4} lg={3} >
+                <Card className={classes.card}>
+                    <Link to={`product-${id}`} className={classes.title}>
+                        {title}
+                    </Link>
+
+                    <CardMedia component="img" image={image} alt={title} className={classes.media} />
+
+                    <CardContent>
+                        <Typography paragraph> {description}</Typography>
+                        <Typography paragraph className={classes.price}>
+                            $ {price}
+                        </Typography>
+                    </CardContent>
+
+                    <CardActions>
+                        <Button
+                            variant="contained"
+                            onClick={addToCartHandler}
+                            startIcon={<AddShoppingCartIcon size="small" />}
+                        >
+                            Add To Cart
+                        </Button>
+                       
+                    </CardActions>
+                </Card>
+            </Grid>
+        </>
     );
 };
 

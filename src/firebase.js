@@ -26,9 +26,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
-// const auth = app.auth();
-// const db = app.fireStore();
-export function signup(email, password) {
+ export function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
 }
 
