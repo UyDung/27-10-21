@@ -149,8 +149,8 @@ const Header = () => {
                             sx={{ mr: "2rem", xs: { ml: "auto" }, cursor: "pointer", padding: "0.2rem" }}
                         >
                             <ShoppingCartOutlinedIcon
-                                color="action"
-                                sx={{
+                                
+                                sx={{ color: 'white',
                                     "&:hover": {
                                         color: "violet",
                                     },

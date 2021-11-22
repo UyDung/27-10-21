@@ -10,7 +10,7 @@ import { transDataToLocal } from "./store/cart-Actions";
 import Cart from "./components/products/Cart/Cart";
 import Header from "./components/layout/Header/Header";
 import Login from "./components/auth/Login";
-import Register2 from "./components/auth/Register2";
+import Register from "./components/auth/Register";
 import Product from "./pages/Product";
 import Admin from "./pages/Admin";
 import ProductDetail from "./components/products/ProductDetail";
@@ -65,7 +65,7 @@ function App() {
                 <Route path="/news" element={<New />} />
                 <Route path="/about">About</Route>
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register2 />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/admin" element={<Admin />} />
             </Routes>

@@ -1,139 +1,122 @@
-import { useNavigate, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Box, Typography, TextField, Button, Link, Checkbox, styled } from "@mui/material";
 
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { signup, useAuth } from "../../firebase";
 
+const schema = yup.object().shape({
+    email: yup.string().required("Email is required").email("Invalid email syntax"),
+    password: yup
+        .string()
+        .required("Password is required")
+        .min(6, "Password must be at least 6 characters")
+        .max(40, "Password must not exceed 40 characters"),
+    confirmPassword: yup
+        .string()
+        .required("Confirm Password is required")
+        .oneOf([yup.ref("password")], "Comfirm Password does not match"),
+    acceptTerms: yup.bool().oneOf([true], "Accept Terms is required"),
+});
+
+const ErrorText = styled("Typography")(({ theme }) => ({
+    color: theme.palette.error.main,
+    fontSize: "0.9rem",
+    fontStyle: "italic",
+}));
+
 const Register = () => {
+    const [errorRegister, setErrorRegister] = useState("");
     const currentUser = useAuth();
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (currentUser) navigate(-1);
+    });
+
     const {
         register,
         handleSubmit,
-        getValues,
-
         formState: { errors },
-    } = useForm({ mode: "all" });
+    } = useForm({
+        resolver: yupResolver(schema),
+        mode: "onChange",
+    });
 
-    useEffect(() => {
-        if (currentUser) navigate("/");
-    }, [currentUser]);
-
-    const signupHandler = async ({ email, password }) => {
-        setIsLoading(true);
+    const loginHandler = async (data) => {
         try {
-            await signup(email, password);
+            await signup(data.email, data.password);
         } catch (error) {
-            alert(error);
+            setErrorRegister("Email already in use");
         }
-        setIsLoading(false);
-
-        navigate("/");
     };
 
     return (
-        <div className="w-80  my-28 mx-auto p-4 box-shadow rounded bg-white">
-            <div className="">
-                <h3 className="mb-4 text-center font-bold text-2xl">Register</h3>
-            </div>
-            <form onSubmit={handleSubmit(signupHandler)} className="flex flex-col gap-2">
-                <div className="">
-                    <label htmlFor="" className="text-md">
-                        Email (*)
-                    </label>
-                    <input
-                        className="outline-none border-2 rounded w-full py-1 px-2"
-                        {...register("email", {
-                            required: true,
-                            pattern: {
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            },
-                        })}
-                        type="text"
-                        autoComplete="off"
-                        placeholder="dungnguyendinh911@gmail.com"
-                    />
-                    {errors.email?.type === "required" && (
-                        <p className="text-red-500 italic text-sm">This field cannot be left blank</p>
-                    )}
-                    {errors.email?.type === "pattern" && (
-                        <p className="text-red-500 italic text-sm">Invalid email address </p>
-                    )}
-                </div>
+        <Box
+            component="form"
+            onSubmit={handleSubmit(loginHandler)}
+            sx={{
+                boxShadow: 1,
+                width: "300px",
+                margin: "20vh auto 0 auto",
+                padding: " 1rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+            }}
+        >
+            <Typography variant="h6" sx={{ textAlign: "center", mb: "1rem" }}>
+                Register New Account
+            </Typography>
+            <TextField
+                {...register("email")}
+                name="email"
+                label="Email"
+                size="small"
+                fullWidth
+                error={errors.email}
+                autoComplete="off"
+            />
+            <ErrorText>{errors.email && errors.email.message}</ErrorText>
 
-                <div className="">
-                    <label htmlFor="" className="text-md">
-                        Password (*)
-                    </label>
-                    <input
-                        className="outline-none border-2 rounded w-full py-1 px-2"
-                        {...register("password", {
-                            required: true,
-                            pattern: { value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ },
-                        })}
-                        type="password"
-                        autoComplete="off"
-                    />
-                    {errors.password?.type === "required" && (
-                        <p className="text-red-500 italic text-sm">This field cannot be left blank</p>
-                    )}
-                    {errors.password?.type === "pattern" && (
-                        <p className="text-red-500 italic text-sm">
-                            Minimum eight characters, at least one letter and one number
-                        </p>
-                    )}
-                </div>
-
-                <div className="">
-                    <label htmlFor="" className="text-md">
-                        Confirm Password (*)
-                    </label>
-                    <input
-                        className="outline-none border-2 rounded w-full py-1 px-2"
-                        {...register("passwordConfirm", {
-                            required: true,
-                            pattern: { value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ },
-                            validate: {
-                                matchesPreviousPassword: (value) => {
-                                    const { password } = getValues();
-                                    return value === password;
-                                },
-                            },
-                        })}
-                        type="password"
-                        autoComplete="off"
-                    />
-                    {errors.passwordConfirm?.type === "required" && (
-                        <p className="text-red-500 italic text-sm">This field cannot be left blank</p>
-                    )}
-                    {errors.passwordConfirm?.type === "pattern" && (
-                        <p className="text-red-500 italic text-sm">
-                            Minimum eight characters, at least one letter and one number
-                        </p>
-                    )}
-                    {errors.passwordConfirm?.type === "matchesPreviousPassword" && (
-                        <p className="text-red-500 italic text-sm">Should matches with password </p>
-                    )}
-                </div>
-
-                <div className="ml-auto">
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="rounded border-2 mr-4 px-2 py-1 bg-blue-500 text-gray-300 hover:bg-indigo-600"
-                    >
-                        Sign Up
-                    </button>
-                    <Link
-                        to="/"
-                        className="rounded border-2 px-2 py-1 bg-blue-500 text-gray-300 hover:bg-indigo-600"
-                    >
-                        Close
-                    </Link>
-                </div>
-            </form>
-        </div>
+            <TextField
+                {...register("password")}
+                name="password"
+                label="Password"
+                type="password"
+                size="small"
+                fullWidth
+                error={errors.password}
+            />
+            <ErrorText>{errors.password && errors.password.message}</ErrorText>
+            <TextField
+                {...register("confirmPassword")}
+                name="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                size="small"
+                fullWidth
+                error={errors.confirmPassword}
+            />
+            <ErrorText>{errors.confirmPassword && errors.confirmPassword.message}</ErrorText>
+            <Box>
+                <Checkbox {...register("acceptTerms")} />
+                <Typography sx={{ fontSize: "0.8rem", display: "inline" }}>
+                    I have read and agree to the Terms
+                </Typography>
+            </Box>
+            <ErrorText>{errors.acceptTerms && errors.acceptTerms.message}</ErrorText>
+            <Button type="submit" variant="contained" sx={{ mb: "1rem" }}>
+                Register
+            </Button>
+            <ErrorText>{errorRegister}</ErrorText>
+            <Link component={RouterLink} to="/login" underline="hover" sx={{ textAlign: "center" }}>
+                Have account ( Login )
+            </Link>
+        </Box>
     );
 };
 
