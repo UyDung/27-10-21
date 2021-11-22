@@ -11,7 +11,7 @@ import reportWebVitals from "./reportWebVitals";
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-        <BrowserRouter basename={process.env.REACT_APP_BASE_URL}>
+        <BrowserRouter  >
             <App />
         </BrowserRouter>
         </Provider>
