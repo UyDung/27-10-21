@@ -2,7 +2,7 @@
   "name": "27-10-21",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://uydung.github.io/27-10-21",
+  "homepage": ".",
   "dependencies": {
     "@craco/craco": "^6.4.0",
     "@emotion/react": "^11.6.0",
