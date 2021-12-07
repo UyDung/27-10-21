@@ -1,0 +1,1 @@
+{"version":3,"sources":["pages/News.jsx"],"names":["News"],"mappings":"+HAOeA,UANF,WACT,OACK","file":"static/js/17.87d5430f.chunk.js","sourcesContent":[" \r\nconst News = () => {\r\n    return (\r\n         <div>News page</div>\r\n    )\r\n}\r\n\r\nexport default News\r\n"],"sourceRoot":""}

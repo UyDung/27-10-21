@@ -1,0 +1,2 @@
+(this["webpackJsonp27-10-21"]=this["webpackJsonp27-10-21"]||[]).push([[17],{532:function(e,s,t){"use strict";t.r(s);var n=t(3);s.default=function(){return Object(n.jsx)("div",{children:"News page"})}}}]);
+//# sourceMappingURL=17.87d5430f.chunk.js.map
